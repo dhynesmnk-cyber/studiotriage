@@ -1,0 +1,66 @@
+<!-- Settings Modal: Change PIN -->
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-stone-900/40 backdrop-blur-sm" onclick="this.parentElement.remove()"></div>
+    <div class="relative bg-stone-50 border border-stone-300 rounded-sm p-8 max-w-md w-full mx-4 shadow-lg">
+        
+        <h3 class="font-serif text-xl text-stone-800 mb-2">Settings</h3>
+        <p class="text-sm text-stone-600 mb-6 font-sans">
+            Change your Safe Loop PIN.
+        </p>
+        
+        <form 
+            hx-post="/api/pin/change"
+            hx-target="#modal-container"
+            hx-swap="outerHTML"
+            class="space-y-4"
+        >
+            <div>
+                <label for="current_pin" class="block text-xs font-mono text-stone-500 mb-2">Current PIN</label>
+                <input 
+                    type="password" 
+                    name="current_pin" 
+                    id="current_pin"
+                    autocomplete="off"
+                    class="w-full bg-stone-100 border border-stone-300 rounded-sm px-4 py-3 text-stone-800 font-mono tracking-widest focus:outline-none focus:border-stone-500 ink-transition"
+                    placeholder="••••"
+                    maxlength="4"
+                    required
+                >
+            </div>
+            
+            <div>
+                <label for="new_pin" class="block text-xs font-mono text-stone-500 mb-2">New PIN</label>
+                <input 
+                    type="password" 
+                    name="new_pin" 
+                    id="new_pin"
+                    autocomplete="off"
+                    class="w-full bg-stone-100 border border-stone-300 rounded-sm px-4 py-3 text-stone-800 font-mono tracking-widest focus:outline-none focus:border-stone-500 ink-transition"
+                    placeholder="••••"
+                    maxlength="4"
+                    required
+                >
+            </div>
+            
+            <div class="flex gap-3 pt-4">
+                <button 
+                    type="button"
+                    onclick="document.getElementById('modal-container').innerHTML = ''"
+                    class="flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 font-sans py-3 px-4 rounded-sm ink-transition transition-colors"
+                >
+                    Cancel
+                </button>
+                <button 
+                    type="submit"
+                    class="flex-1 bg-stone-800 hover:bg-stone-700 text-stone-50 font-serif py-3 px-4 rounded-sm ink-transition transition-colors"
+                >
+                    Update PIN
+                </button>
+            </div>
+        </form>
+        
+        <p class="text-xs text-stone-400 font-mono mt-6 text-center">
+            Default PIN: 0000 (change this on first use)
+        </p>
+    </div>
+</div>

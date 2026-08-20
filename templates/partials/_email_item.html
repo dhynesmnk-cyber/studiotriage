@@ -1,0 +1,104 @@
+<!-- Single Email Item - Split Screen Layout -->
+<div class="border-b border-stone-300 bg-stone-50 hover:bg-stone-100/50 ink-transition" id="email-{{ email.id }}">
+    <div class="flex h-[calc(100vh-140px)]">
+        
+        <!-- Left Pane: Original Email (40%) -->
+        <div class="w-2/5 border-r border-stone-300 p-6 overflow-y-auto scrollbar-thin">
+            <!-- Email Header -->
+            <div class="mb-6 pb-4 border-b border-stone-200">
+                <h3 class="font-serif text-lg text-stone-800 mb-2">{{ email.subject }}</h3>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-stone-600">From: {{ email.sender }}</span>
+                    <span class="font-mono text-xs text-stone-400">{{ email.received_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                </div>
+            </div>
+            
+            <!-- Email Body -->
+            <div class="prose prose-stone prose-sm max-w-none">
+                <div class="font-sans text-stone-700 leading-relaxed whitespace-pre-wrap">{{ email.body[:1500] }}{% if email.body|length > 1500 %}...{% endif %}</div>
+            </div>
+            
+            <!-- Attachments -->
+            {% if email.attachments %}
+            <div class="mt-6 pt-4 border-t border-stone-200">
+                <h4 class="font-serif text-sm text-stone-600 mb-3">Attachments</h4>
+                <ul class="space-y-2">
+                    {% for attachment in email.attachments %}
+                    <li class="flex items-center gap-2 text-sm font-mono text-stone-600 bg-stone-100 px-3 py-2 rounded-sm">
+                        <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span class="truncate">{{ attachment.split('/')[-1] }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Right Pane: AI Draft (60%) -->
+        <div class="w-3/5 p-6 overflow-y-auto scrollbar-thin bg-stone-100/30">
+            <!-- Change Log Section -->
+            <div class="mb-6">
+                <h3 class="font-serif text-lg text-stone-800 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    Extracted Change Log
+                </h3>
+                
+                {% if email.client_name or email.project %}
+                <div class="mb-4 flex gap-4 text-sm">
+                    {% if email.client_name %}
+                    <span class="bg-stone-200 text-stone-700 px-3 py-1 rounded-sm font-sans">Client: {{ email.client_name }}</span>
+                    {% endif %}
+                    {% if email.project %}
+                    <span class="bg-stone-200 text-stone-700 px-3 py-1 rounded-sm font-sans">Project: {{ email.project }}</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                {% if email.change_log %}
+                <ul class="space-y-2">
+                    {% for change in email.change_log %}
+                    <li class="flex items-start gap-3 text-stone-700 font-sans">
+                        <span class="text-amber-700 mt-1">•</span>
+                        <span>{{ change }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-stone-500 italic font-sans">No specific changes extracted.</p>
+                {% endif %}
+            </div>
+            
+            <!-- Drafted Reply Section -->
+            <div class="mb-6">
+                <h3 class="font-serif text-lg text-stone-800 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Drafted Reply
+                </h3>
+                
+                <div class="bg-stone-50 border border-stone-200 rounded-sm p-4">
+                    <p class="font-sans text-stone-700 leading-relaxed whitespace-pre-wrap">{{ email.drafted_reply }}</p>
+                </div>
+            </div>
+            
+            <!-- Action Button -->
+            <div class="pt-4 border-t border-stone-200">
+                <button
+                    hx-get="/approve/modal/{{ email.id }}"
+                    hx-target="#modal-container"
+                    class="w-full bg-stone-800 hover:bg-stone-700 text-stone-50 font-serif py-3 px-6 rounded-sm ink-transition transition-colors"
+                >
+                    Authorize Execution
+                </button>
+                <p class="text-xs text-stone-500 font-mono mt-2 text-center">
+                    Opens native email client • Requires PIN • Manual send required
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
