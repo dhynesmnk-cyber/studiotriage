@@ -1,7 +1,33 @@
-```
 # Python
-.python-version
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.ENV
 
-# Netlify
-netlify.toml
-```
+# Dependencies
+requirements.txt.bak
+*.egg-info/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Database files (will be created at runtime in mounted volume)
+little_desk.db
+*.sqlite
+*.sqlite3
+
+# Build/deploy configs (keep these for deployment)
+# netlify.toml
+# render.yaml
+# Procfile
+# .python-version
