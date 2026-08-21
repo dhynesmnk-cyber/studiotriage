@@ -1,42 +1,33 @@
-```
-# Dependencies
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.venv/
-venv/
+.Python
 env/
-.env
-.env.local
-.env.*
+venv/
+.venv/
+.ENV
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# Dependencies
+requirements.txt.bak
+*.egg-info/
 
 # Logs
 *.log
 
-# Coverage reports
-.coverage
-coverage/
-htmlcov/
+# Environment
+.env
+.env.local
+.env.*
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*.tmp
+# Database files (will be created at runtime in mounted volume)
+little_desk.db
+*.sqlite
+*.sqlite3
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Build artifacts
-dist/
-build/
-*.egg-info/
-```
+# Build/deploy configs (keep these for deployment)
+# netlify.toml
+# render.yaml
+# Procfile
+# .python-version
